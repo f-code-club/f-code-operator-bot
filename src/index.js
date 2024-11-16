@@ -31,7 +31,7 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   if (message.content.startsWith(`${prefix}CHECK_`)) {
-    const studentCode = message.content.slice(7);
+    const studentCode = message.content.slice(6);
 
     if (validStudentCodeRegex.test(studentCode)) {
       try {
