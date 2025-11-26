@@ -5,12 +5,19 @@ fn default_database_url() -> String {
     "data.sql".to_string()
 }
 
+fn default_bot_prefix() -> String {
+    "!".to_string()
+}
+
 #[derive(Deserialize)]
 pub struct Config {
     #[serde(default = "default_database_url")]
     pub database_url: String,
 
-    pub discord_token: String,
+    #[serde(default = "default_bot_prefix")]
+    pub bot_prefix: String,
+
+    pub bot_token: String,
 }
 
 impl Config {
