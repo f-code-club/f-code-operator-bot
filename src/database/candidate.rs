@@ -19,7 +19,7 @@ pub struct Candidate {
     pub verification_time: Option<NaiveDateTime>,
 }
 
-pub async fn get_candidates(
+pub async fn get(
     id: &str,
     executor: impl SqliteExecutor<'_>,
 ) -> Result<Option<Candidate>> {

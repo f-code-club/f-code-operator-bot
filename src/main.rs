@@ -6,7 +6,6 @@ pub mod state;
 use std::sync::Arc;
 use std::time::Duration;
 
-use anyhow::Result;
 use poise::serenity_prelude::{Client, GatewayIntents};
 use poise::{Framework, FrameworkOptions};
 
@@ -15,11 +14,11 @@ pub use crate::state::State;
 
 pub type Context<'a> = poise::Context<'a, State, anyhow::Error>;
 
-pub async fn build_bot() -> Result<()> {
+pub async fn build_bot() -> anyhow::Result<()> {
     let config = Config::new()?;
 
     let options = FrameworkOptions {
-        commands: vec![command::ping(), command::help()],
+        commands: vec![command::ping(), command::help(), command::verify()],
         prefix_options: poise::PrefixFrameworkOptions {
             prefix: Some(config.bot_prefix),
             edit_tracker: Some(Arc::new(poise::EditTracker::for_timespan(
@@ -56,9 +55,9 @@ pub async fn build_bot() -> Result<()> {
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
+        .with_max_level(tracing::Level::INFO)
         .pretty()
         .with_timer(tracing_subscriber::fmt::time::ChronoLocal::rfc_3339())
         .init();

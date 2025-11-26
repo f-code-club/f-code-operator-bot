@@ -1,5 +1,7 @@
-mod ping;
 mod help;
+mod ping;
+mod verify;
 
-pub use ping::ping;
 pub use help::help;
+pub use ping::ping;
+pub use verify::verify;
