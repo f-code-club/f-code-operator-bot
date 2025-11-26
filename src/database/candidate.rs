@@ -1,8 +1,8 @@
 use chrono::{Local, NaiveDateTime};
 use sqlx::{Result, SqliteExecutor, SqlitePool};
 
-#[tracing::instrument]
-pub async fn create(ids: &[String], pool: &SqlitePool) -> Result<()> {
+#[tracing::instrument(skip(ids, pool))]
+pub async fn add(ids: impl Iterator<Item = &str>, pool: &SqlitePool) -> Result<()> {
     let mut transaction = pool.begin().await?;
 
     for id in ids {
@@ -19,10 +19,8 @@ pub struct Candidate {
     pub verification_time: Option<NaiveDateTime>,
 }
 
-pub async fn get(
-    id: &str,
-    executor: impl SqliteExecutor<'_>,
-) -> Result<Option<Candidate>> {
+#[tracing::instrument(skip(executor))]
+pub async fn get(id: &str, executor: impl SqliteExecutor<'_>) -> Result<Option<Candidate>> {
     sqlx::query_as!(
         Candidate,
         r#"
@@ -36,6 +34,7 @@ pub async fn get(
     .await
 }
 
+#[tracing::instrument(skip(executor))]
 pub async fn verify(id: &str, executor: impl SqliteExecutor<'_>) -> Result<()> {
     let now = Local::now().naive_local();
 

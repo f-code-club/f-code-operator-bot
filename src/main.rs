@@ -18,7 +18,12 @@ pub async fn build_bot() -> anyhow::Result<()> {
     let config = Config::new()?;
 
     let options = FrameworkOptions {
-        commands: vec![command::ping(), command::help(), command::verify()],
+        commands: vec![
+            command::ping(),
+            command::help(),
+            command::add(),
+            command::verify(),
+        ],
         prefix_options: poise::PrefixFrameworkOptions {
             prefix: Some(config.bot_prefix),
             edit_tracker: Some(Arc::new(poise::EditTracker::for_timespan(
