@@ -25,6 +25,6 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY --from=builder /app/target/release/F-Code-Operator-Bot .
+COPY --from=builder /app/target/release/f-code-operator-bot .
 
-CMD ["./F-Code-Operator-Bot"]
+CMD ["./f-code-operator-bot"]
