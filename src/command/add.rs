@@ -5,13 +5,13 @@ use crate::{Context, database};
 
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
-pub async fn add(ctx: Context<'_>, ids: serenity::Attachment) -> Result<()> {
+pub async fn add(ctx: Context<'_>, id: serenity::Attachment) -> Result<()> {
     let pool = &ctx.data().pool;
 
-    let ids = ids.download().await?;
-    let ids = String::from_utf8(ids)?;
+    let id = id.download().await?;
+    let id = String::from_utf8(id)?;
 
-    database::candidate::add(ids.trim().lines(), pool).await?;
+    database::candidate::add(id.trim().lines(), pool).await?;
 
     ctx.reply("Successfully added").await?;
 

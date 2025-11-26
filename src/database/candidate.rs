@@ -52,3 +52,16 @@ pub async fn verify(id: &str, executor: impl SqliteExecutor<'_>) -> Result<()> {
 
     Ok(())
 }
+
+#[tracing::instrument(skip(ids, pool))]
+pub async fn delete(ids: impl Iterator<Item = &str>, pool: &SqlitePool) -> Result<()> {
+    let mut transaction = pool.begin().await?;
+
+    for id in ids {
+        sqlx::query!("DELETE FROM candidates WHERE id = $1", id)
+            .execute(&mut *transaction)
+            .await?;
+    }
+
+    transaction.commit().await
+}
