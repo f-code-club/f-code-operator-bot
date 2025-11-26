@@ -1,4 +1,4 @@
-use chrono::{Local, NaiveDateTime};
+use chrono::NaiveDateTime;
 
 use crate::util;
 
@@ -21,11 +21,9 @@ impl From<Message<'_>> for String {
             Message::CandidateDeleted(id) => format!("Thí sinh với mã số {} đã được xóa.", id),
             Message::NotRegistered => "Mã số sinh viên chưa đăng kí.".to_string(),
             Message::Verified(None) => "Bạn đã verify thành công".to_string(),
-            Message::Verified(Some(time)) => {
-                format!("Bạn đã verify thành công vào {}.", util::format_datetime(time))
-            }
+            Message::Verified(Some(time)) => format!("Bạn đã verify thành công vào {}.", util::format_datetime(time)),
             Message::InvalidName => "Vui lòng đặt tên đúng quy tắc.".to_string(),
             Message::Error => "Có một số lỗi đã xảy ra bạn thử lại trong ít phút hoặc tạo ticket để được hỗ trợ nhé!".to_string(),
-        }
+ }
     }
 }

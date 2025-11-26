@@ -1,0 +1,17 @@
+services:
+  bot:
+    image: ${REGISTRY}/bot:latest
+    container_name: fcode-discord-bot
+    volumes:
+      - sqlite:/app
+    environment:
+      BOT_PREFIX: ${BOT_PREFIX}
+      BOT_TOKEN: ${BOT_TOKEN}
+    restart: always
+    profiles:
+      - deploy
+
+volumes:
+  sqlite:
+    name: fcode-discord-bot-sqlite
+    external: true
