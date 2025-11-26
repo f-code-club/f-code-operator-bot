@@ -22,7 +22,8 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
         return Ok(());
     };
     if let Some(verification_time) = candidate.verification_time {
-        ctx.reply(Message::Verified(verification_time)).await?;
+        ctx.reply(Message::Verified(Some(verification_time)))
+            .await?;
 
         return Ok(());
     }
@@ -55,8 +56,7 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
         .await?;
     member.add_role(ctx.http(), role.id).await?;
 
-    let now = Local::now().naive_local();
-    ctx.reply(Message::Verified(now)).await?;
+    ctx.reply(Message::Verified(None)).await?;
 
     Ok(())
 }

@@ -21,7 +21,7 @@ pub async fn add(ctx: Context<'_>, id: serenity::Attachment) -> Result<()> {
 
     database::candidate::add(id.trim().lines(), pool).await?;
 
-    ctx.reply(Message::CandidateAdded(&id)).await?;
+    ctx.reply(Message::CandidateAdded).await?;
 
     Ok(())
 }
