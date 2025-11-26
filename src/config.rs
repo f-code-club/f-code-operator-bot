@@ -2,7 +2,7 @@ use anyhow::Result;
 use serde::Deserialize;
 
 fn default_database_url() -> String {
-    "sqlite:data.db".to_string()
+    "sqlite:data.db?mode=rwc".to_string()
 }
 
 fn default_bot_prefix() -> String {
