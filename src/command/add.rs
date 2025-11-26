@@ -5,7 +5,12 @@ use crate::{Context, Message, database, util};
 
 /// Add one or more candidate IDs to the candidates database from a text file.
 #[tracing::instrument]
-#[poise::command(slash_command, prefix_command, ephemeral)]
+#[poise::command(
+    slash_command,
+    prefix_command,
+    ephemeral,
+    required_permissions = "MANAGE_MESSAGES | MANAGE_THREADS"
+)]
 pub async fn add(
     ctx: Context<'_>,
     #[description = "Text file with candidate IDs (one per line, UTF‑8)"] id: serenity::Attachment,
