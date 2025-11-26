@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "\n            UPDATE candidates\n            SET verification_time = $2\n            WHERE id = $1\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "32dc384f62c4d22190e05c9c9144a0d101d9fc6e6de889e2e4bded8415ec0170"
+}
