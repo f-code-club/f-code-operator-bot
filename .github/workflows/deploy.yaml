@@ -60,7 +60,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean container and image
-        run: docker compose -f compose.yaml -p fcode-discord-bot down -v
+        run: docker compose -f compose.yaml -p blood-donation-system down --rmi all -v
 
       - name: Deploy
-        run: docker compose -f compose.yaml -p fcode-discord-bot up -d --pull always
+        run: docker compose -f compose.yaml -p fcode-discord-bot up -d
