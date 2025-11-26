@@ -33,10 +33,10 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Build image
-        run: docker compose -f compose.build.yaml --profile build
+        run: docker compose -f compose.build.yaml build
 
       - name: Push image
-        run: docker compose -f compose.build.yaml --profile push
+        run: docker compose -f compose.build.yaml push
 
   deploy:
     runs-on: self-hosted
