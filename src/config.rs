@@ -1,5 +1,6 @@
 use std::sync::LazyLock;
 
+use anyhow::Result;
 use serde::Deserialize;
 
 fn default_database_url() -> String {
@@ -14,15 +15,17 @@ pub struct Config {
     pub discord_token: String,
 }
 
-pub static CONFIG: LazyLock<Config> = LazyLock::new(|| {
-    ::config::Config::builder()
-        .add_source(
-            ::config::Environment::default()
-                .try_parsing(true)
-                .separator("__"),
-        )
-        .build()
-        .unwrap()
-        .try_deserialize()
-        .unwrap()
-});
+impl Config {
+    pub fn new() -> Result<Self> {
+        let config = ::config::Config::builder()
+            .add_source(
+                ::config::Environment::default()
+                    .try_parsing(true)
+                    .separator("__"),
+            )
+            .build()?
+            .try_deserialize()?;
+
+        Ok(config)
+    }
+}
