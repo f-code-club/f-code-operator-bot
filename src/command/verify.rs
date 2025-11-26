@@ -1,6 +1,9 @@
 use anyhow::{Result, anyhow};
+use poise::serenity_prelude::EditRole;
 
 use crate::{Context, database};
+
+const ROLE: &str = "Round 1: Challenger";
 
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
@@ -38,6 +41,14 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     }
 
     database::candidate::verify(&id, &ctx.data().pool).await?;
+
+    let Some(guild) = ctx.guild_id() else {
+        return Err(anyhow!("Must be in a guild"));
+    };
+    let role = guild
+        .create_role(ctx.http(), EditRole::new().name(ROLE))
+        .await?;
+    member.add_role(ctx.http(), role.id).await?;
 
     ctx.reply("Successfully verify").await?;
 

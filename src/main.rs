@@ -22,6 +22,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
             command::ping(),
             command::help(),
             command::add(),
+            command::delete(),
             command::verify(),
         ],
         prefix_options: poise::PrefixFrameworkOptions {
@@ -45,10 +46,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
         .options(options)
         .build();
 
-    let intents = GatewayIntents::GUILDS
-        | GatewayIntents::GUILD_MEMBERS
-        | GatewayIntents::GUILD_MESSAGES
-        | GatewayIntents::MESSAGE_CONTENT;
+    let intents = GatewayIntents::all() | GatewayIntents::GUILD_MESSAGE_REACTIONS;
 
     let mut client = Client::builder(&config.bot_token, intents)
         .framework(framework)
