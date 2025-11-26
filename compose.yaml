@@ -8,8 +8,6 @@ services:
       BOT_PREFIX: ${BOT_PREFIX}
       BOT_TOKEN: ${BOT_TOKEN}
     restart: always
-    profiles:
-      - deploy
 
 volumes:
   sqlite:
