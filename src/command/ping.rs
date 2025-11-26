@@ -1,12 +1,10 @@
 use anyhow::Result;
-use poise::CreateReply;
 
 use crate::Context;
 
-#[poise::command(slash_command, ephemeral)]
+#[poise::command(slash_command, prefix_command, ephemeral)]
 pub async fn ping(ctx: Context<'_>) -> Result<()> {
-    ctx.send(CreateReply::default().ephemeral(true).content("pong"))
-        .await?;
+    ctx.reply("pong").await?;
 
     Ok(())
 }
