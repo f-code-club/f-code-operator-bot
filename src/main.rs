@@ -1,7 +1,7 @@
 pub mod command;
 pub mod config;
-pub mod state;
 pub mod database;
+pub mod state;
 
 use std::sync::Arc;
 use std::time::Duration;
@@ -19,7 +19,7 @@ pub async fn build_bot() -> Result<()> {
     let config = Config::new()?;
 
     let options = FrameworkOptions {
-        commands: vec![command::ping()],
+        commands: vec![command::ping(), command::help()],
         prefix_options: poise::PrefixFrameworkOptions {
             prefix: Some(config.bot_prefix),
             edit_tracker: Some(Arc::new(poise::EditTracker::for_timespan(
