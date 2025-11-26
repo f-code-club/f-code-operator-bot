@@ -5,6 +5,7 @@ use crate::{Context, Message, database, util};
 
 const ROLE: &str = "Round 1: Challenger";
 
+/// Verify a candidate and assign role upon success.
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
 pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {

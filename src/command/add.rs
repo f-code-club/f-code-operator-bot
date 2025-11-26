@@ -3,9 +3,13 @@ use poise::serenity_prelude as serenity;
 
 use crate::{Context, Message, database, util};
 
+/// Add one or more candidate IDs to the candidates database from a text file.
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
-pub async fn add(ctx: Context<'_>, id: serenity::Attachment) -> Result<()> {
+pub async fn add(
+    ctx: Context<'_>,
+    #[description = "Text file with candidate IDs (one per line, UTF‑8)"] id: serenity::Attachment,
+) -> Result<()> {
     let pool = &ctx.data().pool;
 
     let id = id.download().await?;
