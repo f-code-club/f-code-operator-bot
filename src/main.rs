@@ -1,6 +1,7 @@
 pub mod command;
 pub mod config;
 pub mod state;
+pub mod database;
 
 use std::sync::Arc;
 use std::time::Duration;
