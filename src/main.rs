@@ -1,5 +1,11 @@
-pub mod state;
+pub mod command;
 pub mod config;
+pub mod state;
+
+pub use crate::config::Config;
+pub use crate::state::State;
+
+pub type Context<'a> = poise::Context<'a, State, anyhow::Error>;
 
 #[tokio::main]
 async fn main() {
