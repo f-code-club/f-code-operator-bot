@@ -1,6 +1,7 @@
 pub mod command;
 pub mod config;
 pub mod database;
+pub mod message;
 pub mod state;
 pub mod util;
 
@@ -11,6 +12,7 @@ use poise::serenity_prelude::{Client, GatewayIntents};
 use poise::{Framework, FrameworkOptions};
 
 pub use crate::config::Config;
+pub use crate::message::Message;
 pub use crate::state::State;
 
 pub type Context<'a> = poise::Context<'a, State, anyhow::Error>;

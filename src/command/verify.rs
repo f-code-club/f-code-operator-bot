@@ -1,7 +1,8 @@
 use anyhow::{Result, anyhow};
+use chrono::Local;
 use poise::serenity_prelude::EditRole;
 
-use crate::{Context, database, util};
+use crate::{Context, Message, database, util};
 
 const ROLE: &str = "Round 1: Challenger";
 
@@ -11,18 +12,17 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     let pool = &ctx.data().pool;
 
     if !util::is_valid_id(&id) {
-        ctx.reply(format!("Invalid id provided {id}")).await?;
+        ctx.reply(Message::InvalidId).await?;
         return Ok(());
     }
 
     let Some(candidate) = database::candidate::get(&id, pool).await? else {
-        ctx.reply("You have not registered").await?;
+        ctx.reply(Message::NotRegistered).await?;
 
         return Ok(());
     };
     if let Some(verification_time) = candidate.verification_time {
-        ctx.reply(format!("You have verified at {}", verification_time))
-            .await?;
+        ctx.reply(Message::Verified(verification_time)).await?;
 
         return Ok(());
     }
@@ -40,7 +40,7 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     ];
     let name = possible_names.iter().flatten().next().unwrap();
     if !name.contains(&id) {
-        ctx.reply("Name should contain student id").await?;
+        ctx.reply(Message::InvalidName).await?;
 
         return Ok(());
     }
@@ -55,7 +55,8 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
         .await?;
     member.add_role(ctx.http(), role.id).await?;
 
-    ctx.reply("Successfully verify").await?;
+    let now = Local::now().naive_local();
+    ctx.reply(Message::Verified(now)).await?;
 
     Ok(())
 }

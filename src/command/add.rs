@@ -1,7 +1,7 @@
 use anyhow::Result;
 use poise::serenity_prelude as serenity;
 
-use crate::{Context, database, util};
+use crate::{Context, Message, database, util};
 
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
@@ -15,13 +15,13 @@ pub async fn add(ctx: Context<'_>, id: serenity::Attachment) -> Result<()> {
             continue;
         }
 
-        ctx.reply(format!("Invalid id provided {id}")).await?;
+        ctx.reply(Message::InvalidId).await?;
         return Ok(());
     }
 
     database::candidate::add(id.trim().lines(), pool).await?;
 
-    ctx.reply("Successfully added").await?;
+    ctx.reply(Message::CandidateAdded(&id)).await?;
 
     Ok(())
 }
