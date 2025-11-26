@@ -9,7 +9,7 @@ fn default_bot_prefix() -> String {
     "!".to_string()
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Config {
     #[serde(default = "default_database_url")]
     pub database_url: String,
@@ -31,6 +31,8 @@ impl Config {
             )
             .build()?
             .try_deserialize()?;
+
+        tracing::info!(?config);
 
         Ok(config)
     }
