@@ -1,13 +1,13 @@
 use anyhow::Result;
 use sqlx::SqlitePool;
 
-use crate::config::Config;
-
+#[derive(Debug)]
 pub struct State {
     pub pool: SqlitePool,
 }
 
 impl State {
+    #[tracing::instrument]
     pub async fn new(database_url: &str) -> Result<Self> {
         let pool = SqlitePool::connect(database_url).await?;
 

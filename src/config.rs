@@ -2,7 +2,7 @@ use anyhow::Result;
 use serde::Deserialize;
 
 fn default_database_url() -> String {
-    "data.sql".to_string()
+    "sqlite:data.db".to_string()
 }
 
 fn default_bot_prefix() -> String {
@@ -21,6 +21,7 @@ pub struct Config {
 }
 
 impl Config {
+    #[tracing::instrument]
     pub fn new() -> Result<Self> {
         let config = ::config::Config::builder()
             .add_source(
