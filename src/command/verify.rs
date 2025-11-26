@@ -1,7 +1,7 @@
 use anyhow::{Result, anyhow};
 use poise::serenity_prelude::EditRole;
 
-use crate::{Context, database};
+use crate::{Context, database, util};
 
 const ROLE: &str = "Round 1: Challenger";
 
@@ -9,6 +9,11 @@ const ROLE: &str = "Round 1: Challenger";
 #[poise::command(slash_command, prefix_command, ephemeral)]
 pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     let pool = &ctx.data().pool;
+
+    if !util::is_valid_id(&id) {
+        ctx.reply(format!("Invalid id provided {id}")).await?;
+        return Ok(());
+    }
 
     let Some(candidate) = database::candidate::get(&id, pool).await? else {
         ctx.reply("You have not registered").await?;

@@ -10,6 +10,7 @@ dependencies = [
  "chrono",
  "config",
  "poise",
+ "regex",
  "serde",
  "sqlx",
  "tokio",

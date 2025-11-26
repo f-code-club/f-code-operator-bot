@@ -1,11 +1,16 @@
 use anyhow::Result;
 
-use crate::{Context, database};
+use crate::{Context, database, util};
 
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
 pub async fn delete(ctx: Context<'_>, id: String) -> Result<()> {
     let pool = &ctx.data().pool;
+
+    if !util::is_valid_id(&id) {
+        ctx.reply(format!("Invalid id provided {id}")).await?;
+        return Ok(());
+    }
 
     database::candidate::delete(&id, pool).await?;
 
