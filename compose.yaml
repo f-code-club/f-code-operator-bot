@@ -3,8 +3,9 @@ services:
     image: ${REGISTRY}/bot:latest
     container_name: fcode-discord-bot
     volumes:
-      - sqlite:/app
+      - sqlite:/app/database
     environment:
+      DATABASE_URL: "sqlite:database/data.db?mode=rwc"
       BOT_PREFIX: ${BOT_PREFIX}
       BOT_TOKEN: ${BOT_TOKEN}
     restart: always
