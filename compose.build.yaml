@@ -7,5 +7,3 @@ services:
         - type=local,src=/tmp/.buildx-cache
       cache_to:
         - type=local,dest=/tmp/.buildx-cache,mode=max
-    profiles:
-      - build
