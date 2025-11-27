@@ -48,6 +48,8 @@ jobs:
       REGISTRY: ghcr.io/${{ github.repository }}
       BOT_PREFIX: ${{ secrets.BOT_PREFIX }}
       BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CANDIDATE_ROLE: ${{ secrets.CANDIDATE_ROLE }}
+      MODERATOR_ROLE: ${{ secrets.MODERATOR_ROLE }}
     steps:
       - name: Checkout Develop
         uses: actions/checkout@v3

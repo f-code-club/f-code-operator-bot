@@ -1,3 +1,4 @@
+pub mod check;
 pub mod command;
 pub mod config;
 pub mod database;
@@ -19,6 +20,8 @@ pub type Context<'a> = poise::Context<'a, State, anyhow::Error>;
 
 pub async fn build_bot() -> anyhow::Result<()> {
     let config = Config::new()?;
+    let prefix = config.bot_prefix.clone();
+    let token = config.bot_token.clone();
 
     let options = FrameworkOptions {
         commands: vec![
@@ -29,7 +32,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
             command::verify(),
         ],
         prefix_options: poise::PrefixFrameworkOptions {
-            prefix: Some(config.bot_prefix),
+            prefix: Some(prefix),
             edit_tracker: Some(Arc::new(poise::EditTracker::for_timespan(
                 Duration::from_secs(3600),
             ))),
@@ -43,7 +46,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
             Box::pin(async move {
                 poise::builtins::register_globally(ctx, &framework.options().commands).await?;
 
-                State::new(&config.database_url).await
+                State::new(config).await
             })
         })
         .options(options)
@@ -51,7 +54,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
 
     let intents = GatewayIntents::all() | GatewayIntents::GUILD_MESSAGE_REACTIONS;
 
-    let mut client = Client::builder(&config.bot_token, intents)
+    let mut client = Client::builder(&token, intents)
         .framework(framework)
         .await?;
 

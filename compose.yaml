@@ -8,6 +8,8 @@ services:
       DATABASE_URL: "sqlite:database/data.db?mode=rwc"
       BOT_PREFIX: ${BOT_PREFIX}
       BOT_TOKEN: ${BOT_TOKEN}
+      CANDIDATE_ROLE: ${CANDIDATE_ROLE}
+      MODERATOR_ROLE: ${MODERATOR_ROLE}
     restart: always
 
 volumes:

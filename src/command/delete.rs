@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::{Context, Message, database, util};
+use crate::{Context, Message, check, database, util};
 
 /// Delete a candidate by ID from the candidates database.
 #[tracing::instrument]
@@ -8,7 +8,7 @@ use crate::{Context, Message, database, util};
     slash_command,
     prefix_command,
     ephemeral,
-    required_permissions = "MANAGE_MESSAGES | MANAGE_THREADS"
+    check = "check::is_moderator"
 )]
 pub async fn delete(ctx: Context<'_>, id: String) -> Result<()> {
     let pool = &ctx.data().pool;
