@@ -11,7 +11,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use poise::serenity_prelude::{Client, GatewayIntents};
-use poise::{Framework, FrameworkOptions};
+use poise::{CreateReply, Framework, FrameworkOptions};
 
 pub use crate::config::Config;
 pub use crate::message::Message;
@@ -41,6 +41,28 @@ pub async fn build_bot() -> anyhow::Result<()> {
         },
         event_handler: |ctx, event, framework, data| {
             Box::pin(event_handler::event_handler(ctx, event, framework, data))
+        },
+        on_error: |error| {
+            Box::pin(async move {
+                if let poise::FrameworkError::Command { ctx, .. } = error {
+                    let _ = ctx
+                        .send(
+                            CreateReply::default()
+                                .content(Message::Error)
+                                .ephemeral(true),
+                        )
+                        .await;
+
+                    return;
+                }
+
+                if let poise::FrameworkError::Setup { error, .. } = error {
+                    tracing::error!("Framework setup error: {:?}", error);
+                    return;
+                }
+
+                tracing::error!("Other framework error (no user context to reply to).");
+            })
         },
         ..Default::default()
     };
