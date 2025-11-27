@@ -3,13 +3,12 @@ use poise::serenity_prelude::EditRole;
 
 use crate::{Context, Message, database, util};
 
-const ROLE: &str = "Round 1: Challenger";
-
 /// Verify a candidate and assign role upon success.
 #[tracing::instrument]
 #[poise::command(slash_command, prefix_command, ephemeral)]
 pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     let pool = &ctx.data().pool;
+    let config = &ctx.data().config;
 
     if !util::is_valid_id(&id) {
         ctx.reply(Message::InvalidId).await?;
@@ -52,7 +51,10 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
         return Err(anyhow!("Must be in a guild"));
     };
     let role = guild
-        .create_role(ctx.http(), EditRole::new().name(ROLE))
+        .create_role(
+            ctx.http(),
+            EditRole::new().name(config.candidate_role.clone()),
+        )
         .await?;
     member.add_role(ctx.http(), role.id).await?;
 
