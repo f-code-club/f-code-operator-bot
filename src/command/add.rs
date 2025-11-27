@@ -1,7 +1,7 @@
 use anyhow::Result;
 use poise::serenity_prelude as serenity;
 
-use crate::{Context, Message, database, util};
+use crate::{Context, Message, check, database, util};
 
 /// Add one or more candidate IDs to the candidates database from a text file.
 #[tracing::instrument]
@@ -9,7 +9,7 @@ use crate::{Context, Message, database, util};
     slash_command,
     prefix_command,
     ephemeral,
-    required_permissions = "MANAGE_MESSAGES | MANAGE_THREADS"
+    check = "check::is_moderator"
 )]
 pub async fn add(
     ctx: Context<'_>,

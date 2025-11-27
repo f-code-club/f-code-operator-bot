@@ -13,6 +13,10 @@ fn default_candidate_role() -> String {
     "Round 1: Challenger".to_string()
 }
 
+fn default_moderator_role() -> String {
+    "Moderator".to_string()
+}
+
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     #[serde(default = "default_database_url")]
@@ -25,6 +29,9 @@ pub struct Config {
 
     #[serde(default = "default_candidate_role")]
     pub candidate_role: String,
+
+    #[serde(default = "default_moderator_role")]
+    pub moderator_role: String,
 }
 
 impl Config {

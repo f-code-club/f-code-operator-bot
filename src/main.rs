@@ -4,6 +4,7 @@ pub mod database;
 pub mod message;
 pub mod state;
 pub mod util;
+pub mod check;
 
 use std::sync::Arc;
 use std::time::Duration;

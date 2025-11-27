@@ -10,6 +10,7 @@ pub enum Message<'a> {
     NotRegistered,
     InvalidName,
     Verified(Option<NaiveDateTime>),
+    Unauthorized,
     Error,
 }
 
@@ -23,6 +24,7 @@ impl From<Message<'_>> for String {
             Message::Verified(None) => "Bạn đã verify thành công".to_string(),
             Message::Verified(Some(time)) => format!("Bạn đã verify thành công vào {}.", util::format_datetime(time)),
             Message::InvalidName => "Vui lòng đặt tên đúng quy tắc.".to_string(),
+            Message::Unauthorized => "Lệnh dành riêng cho moderator".to_string(),
             Message::Error => "Có một số lỗi đã xảy ra bạn thử lại trong ít phút hoặc tạo ticket để được hỗ trợ nhé!".to_string(),
  }
     }
