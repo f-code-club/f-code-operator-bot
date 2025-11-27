@@ -60,7 +60,7 @@ Shows a help message, either for all commands or for a specific command.
 
 Add one or more candidate IDs to the candidates database from a text file.
 
-**Permissions:** `MANAGE_MESSAGES` or `MANAGE_THREADS`
+**Permissions:** `Moderator`
 
 **Parameters:**
 *   `id`: A text file with candidate IDs (one per line, UTF-8).
@@ -74,7 +74,7 @@ Add one or more candidate IDs to the candidates database from a text file.
 
 Delete a candidate by ID from the candidates database.
 
-**Permissions:** `MANAGE_MESSAGES` or `MANAGE_THREADS`
+**Permissions:** `Moderator`
 
 **Parameters:**
 *   `id`: The ID of the candidate to delete.
