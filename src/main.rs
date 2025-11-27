@@ -2,6 +2,7 @@ pub mod check;
 pub mod command;
 pub mod config;
 pub mod database;
+pub mod event_handler;
 pub mod message;
 pub mod state;
 pub mod util;
@@ -37,6 +38,9 @@ pub async fn build_bot() -> anyhow::Result<()> {
                 Duration::from_secs(3600),
             ))),
             ..Default::default()
+        },
+        event_handler: |ctx, event, framework, data| {
+            Box::pin(event_handler::event_handler(ctx, event, framework, data))
         },
         ..Default::default()
     };
