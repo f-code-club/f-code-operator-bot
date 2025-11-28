@@ -92,7 +92,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
+        .with_max_level(tracing::Level::INFO)
         .pretty()
         .with_timer(tracing_subscriber::fmt::time::ChronoLocal::rfc_3339())
         .init();
