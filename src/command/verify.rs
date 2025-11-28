@@ -1,5 +1,4 @@
 use anyhow::{Result, anyhow};
-use poise::serenity_prelude::EditRole;
 
 use crate::{Context, Message, database, util};
 
@@ -50,13 +49,18 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     let Some(guild) = ctx.guild_id() else {
         return Err(anyhow!("Must be in a guild"));
     };
-    let role = guild
-        .create_role(
-            ctx.http(),
-            EditRole::new().name(config.candidate_role.clone()),
-        )
-        .await?;
-    member.add_role(ctx.http(), role.id).await?;
+    let roles = guild.roles(ctx.http()).await?;
+    let role_id = roles.iter().find_map(|(id, role)| {
+        if role.name == config.moderator_role {
+            Some(id)
+        } else {
+            None
+        }
+    });
+    let Some(role_id) = role_id else {
+        return Err(anyhow!("No role with given name"));
+    };
+    member.add_role(ctx.http(), role_id).await?;
 
     ctx.reply(Message::Verified(None)).await?;
 
