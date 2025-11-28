@@ -51,7 +51,7 @@ pub async fn verify(ctx: Context<'_>, id: String) -> Result<()> {
     };
     let roles = guild.roles(ctx.http()).await?;
     let role_id = roles.iter().find_map(|(id, role)| {
-        if role.name == config.moderator_role {
+        if role.name == config.candidate_role {
             Some(id)
         } else {
             None
