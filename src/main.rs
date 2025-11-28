@@ -44,6 +44,7 @@ pub async fn build_bot() -> anyhow::Result<()> {
         },
         on_error: |error| {
             Box::pin(async move {
+                tracing::error!(?error);
                 if let poise::FrameworkError::Command { ctx, .. } = error {
                     let _ = ctx
                         .send(
