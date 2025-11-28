@@ -1,5 +1,4 @@
 use anyhow::{Result, anyhow};
-use poise::serenity_prelude::EditRole;
 
 use crate::{Context, Message, database, util};
 
