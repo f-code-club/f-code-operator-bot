@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM candidates WHERE id = $1 COLLATE NOCASE",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "2ac323324a8ed9bc0296660bc56a96a58b1a6178a8c3e2f367c09a767b386693"
+}

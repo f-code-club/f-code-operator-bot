@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "\n            SELECT id, verification_time as \"verification_time: NaiveDateTime\"\n            FROM candidates\n            WHERE id = $1\n        ",
+  "query": "\n            SELECT id, verification_time as \"verification_time: NaiveDateTime\"\n            FROM candidates\n            WHERE id = $1 COLLATE NOCASE\n        ",
   "describe": {
     "columns": [
       {
@@ -22,5 +22,5 @@
       true
     ]
   },
-  "hash": "792037c2586baeca11fc16c3c7cfcdd1e0d75a2ca085749d0483f098443597ac"
+  "hash": "063224c6636d76faf35fc7f83743419900ac8259d238c07772afc3f3f8c18a7d"
 }
