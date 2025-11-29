@@ -26,7 +26,7 @@ pub async fn get(id: &str, executor: impl SqliteExecutor<'_>) -> Result<Option<C
         r#"
             SELECT id, verification_time as "verification_time: NaiveDateTime"
             FROM candidates
-            WHERE id = $1
+            WHERE id = $1 COLLATE NOCASE
         "#,
         id
     )
@@ -42,7 +42,7 @@ pub async fn verify(id: &str, executor: impl SqliteExecutor<'_>) -> Result<()> {
         r#"
             UPDATE candidates
             SET verification_time = $2
-            WHERE id = $1
+            WHERE id = $1 COLLATE NOCASE
         "#,
         id,
         now
@@ -55,7 +55,7 @@ pub async fn verify(id: &str, executor: impl SqliteExecutor<'_>) -> Result<()> {
 
 #[tracing::instrument(skip(executor))]
 pub async fn delete(id: &str, executor: impl SqliteExecutor<'_>) -> Result<()> {
-    sqlx::query!("DELETE FROM candidates WHERE id = $1", id)
+    sqlx::query!("DELETE FROM candidates WHERE id = $1 COLLATE NOCASE", id)
         .execute(executor)
         .await?;
 
